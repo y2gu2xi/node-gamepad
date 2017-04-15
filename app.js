@@ -6,7 +6,7 @@
 // Creating an express server
 
 var express = require('express'),
-	app = express();
+    app = express();
 
 var robot = require("robotjs");
 
@@ -39,68 +39,68 @@ var secret = 'c';
 
 var presentation = io.on('connection', function (socket) {
 
-	// A new client has come online. Check the secret key and 
-	// emit a "granted" or "denied" message.
+    // A new client has come online. Check the secret key and
+    // emit a "granted" or "denied" message.
 
-	socket.on('load', function(data){
+    socket.on('load', function (data) {
 
-		socket.emit('access', {
-			access: (data.key === secret ? "granted" : "denied")
-		});
+        socket.emit('access', {
+            access: (data.key === secret ? "granted" : "denied")
+        });
 
-	});
+    });
 
-	// Clients send the 'slide-changed' message whenever they navigate to a new slide.
+    // Clients send the 'slide-changed' message whenever they navigate to a new slide.
 
-	socket.on('slide-changed', function(data){
+    socket.on('slide-changed', function (data) {
 
-		// Check the secret key again
+        // Check the secret key again
 
-		if(data.key === secret) {
+        if (data.key === secret) {
 
-			// Tell all connected clients to navigate to the new slide
-			
-			presentation.emit('navigate', {
-				hash: data.hash
-			});
+            // Tell all connected clients to navigate to the new slide
+
+            presentation.emit('navigate', {
+                hash: data.hash
+            });
 
             //robot.typeString(data.hash);
-			// Press enter.
+            // Press enter.
             //robot.keyTap("enter");
 
 
         }
 
-	});
+    });
 
-	socket.on('direction', function(data){
+    socket.on('direction', function (data) {
 
-		// Check the secret key again
+        // Check the secret key again
 
-		if(data.key === secret) {
+        if (data.key === secret) {
 
-			// presentation.emit('navigate', {
-			// 	hash: data.hash
-			// });
+            // presentation.emit('navigate', {
+            // 	hash: data.hash
+            // });
 
             //robot.typeString(data.direction);
 
-            if(data.direction == 'leftward'){
-                //robot.keyTap("left");
-                robot.keyToggle('left', 'down')
-                robot.keyToggle('right', 'up')
+            if (data.direction == 'leftward') {
+                robot.typeString("left");
+                // robot.keyToggle('left', 'down')
+                //robot.keyToggle('right', 'up')
                 console.log('left')
 
 
-            }else if(data.direction == 'rightward'){
-               // robot.keyTap("right");
-                robot.keyToggle('right', 'down')
-                robot.keyToggle('left', 'up')
-console.log('right')
+            } else if (data.direction == 'rightward') {
+                robot.typeString("right");
+                // robot.keyToggle('right', 'down')
+                //robot.keyToggle('left', 'up')
+                console.log('right')
             }
 
         }
 
-	});
+    });
 
 });
