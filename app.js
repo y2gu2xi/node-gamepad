@@ -11,7 +11,8 @@ var express = require('express'),
 var robot = require("robotjs");
 
 // Speed up the mouse.
-robot.setMouseDelay(100);
+robot.setMouseDelay(2000);
+//robot.setKeyboardDelay(2000);
 
 // This is needed if the app is run on heroku and other cloud providers:
 
@@ -86,17 +87,21 @@ var presentation = io.on('connection', function (socket) {
             //robot.typeString(data.direction);
 
             if (data.direction == 'leftward') {
-                robot.typeString("left");
                 // robot.keyToggle('left', 'down')
                 //robot.keyToggle('right', 'up')
                 console.log('left')
+                robot.keyTap('left',['command'])
 
 
+                //test
             } else if (data.direction == 'rightward') {
-                robot.typeString("right");
                 // robot.keyToggle('right', 'down')
                 //robot.keyToggle('left', 'up')
-                console.log('right')
+                console.log('right ...')
+                robot.keyTap('4',['command','shift'])
+
+
+
             }
 
         }
